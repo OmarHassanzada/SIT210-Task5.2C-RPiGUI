@@ -1,0 +1,75 @@
+from tkinter import *
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+##HardWare
+Redled = LED(18)
+Blueled = LED(17)
+Greenled = LED(27)
+
+##GUI
+Screen = Tk() ##Create a Screendow
+Screen.title("GUI LED TOGGLER")
+Font = tkinter.font.Font(family = 'Arial', size = 16, weight = "bold")
+
+## EVENT
+def RedLEDButton():
+    if Redled.is_lit:
+        Redled.off()
+        RedLedToggleButton["text"] = "Turn Red LED On"    
+    else:
+        Redled.on()
+        RedLedToggleButton["text"] = "Turn Red LED Off"
+        
+        Blueled.off()
+        BlueLedToggleButton["text"] = "Turn Blue LED On"
+        
+        Greenled.off()
+        GreenLedToggleButton["text"] = "Turn Green LED On" 
+
+def BlueLEDButton():
+    if Blueled.is_lit:
+        Blueled.off()
+        BlueLedToggleButton["text"] = "Turn Blue LED On" 
+    else:
+        Blueled.on()
+        BlueLedToggleButton["text"] = "Turn Blue LED Off"
+        
+        Redled.off()
+        RedLedToggleButton["text"] = "Turn Red LED On"
+        
+        Greenled.off()
+        GreenLedToggleButton["text"] = "Turn Green LED On"  
+        
+def GreenLEDButton():
+    if Greenled.is_lit:
+        Greenled.off()
+        GreenLedToggleButton["text"] = "Turn Green LED On"
+    else:
+        Greenled.on()
+        GreenLedToggleButton["text"] = "Turn Green LED Off"
+                
+        Redled.off()
+        RedLedToggleButton["text"] = "Turn Red LED On"
+        
+        Blueled.off()
+        BlueLedToggleButton["text"] = "Turn Blue LED On"
+        
+def quitGUI():
+    RPi.GPIO.cleanup
+    Screen.destroy()
+
+## CREATE WIDGETS
+RedLedToggleButton = Button(Screen, text = 'Turn Red LED On', font = Font, command = RedLEDButton, bg = 'Red', height = 1, width = 50) 
+RedLedToggleButton.grid(row=0,column=1)
+
+BlueLedToggleButton = Button(Screen, text = 'Turn Blue LED On', font = Font, command = BlueLEDButton, bg = 'Blue', height = 1, width = 50) 
+BlueLedToggleButton.grid(row=0,column=2)
+
+GreenLedToggleButton = Button(Screen, text = 'Turn Green LED On', font = Font, command = GreenLEDButton, bg = 'Green', height = 1, width = 50) 
+GreenLedToggleButton.grid(row=2,column=1)
+
+ExitButton = Button(Screen, text = 'Exit', font = Font, command = quitGUI, bg = 'Gray', height = 1, width = 50) 
+ExitButton.grid(row=2,column=2)
